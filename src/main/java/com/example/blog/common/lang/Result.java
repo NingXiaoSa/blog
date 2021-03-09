@@ -36,4 +36,11 @@ public class Result implements Serializable {
         m.setMsg(mess);
         return m;
     }
+    public static Result fail(String code,String mess, Object data) {
+        Result m = new Result();
+        m.setCode(code);
+        m.setData(mess);
+        m.setMsg((String) data);
+        return m;
+    }
 }
