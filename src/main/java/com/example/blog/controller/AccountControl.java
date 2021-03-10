@@ -26,26 +26,27 @@ public class AccountControl {
     JwtUtils jwtUtils;
 
     @PostMapping("/Login")
-    public Result login(@Validated @RequestBody LoginDto loginDto, HttpServerResponse httpServerResponse){
-        User user=userService.getOne(new QueryWrapper<User>().eq("username",loginDto.getUsername()));
-        Assert.notNull(user,"用户不存在");
-        if(user.getPassword() .equals(SecureUtil.md5(loginDto.getPassword()) )){
+    public Result login(@Validated @RequestBody LoginDto loginDto, HttpServerResponse httpServerResponse) {
+        User user = userService.getOne(new QueryWrapper<User>().eq("username", loginDto.getUsername()));
+        Assert.notNull(user, "用户不存在");
+        if (user.getPassword().equals(SecureUtil.md5(loginDto.getPassword()))) {
             return Result.fail("密码不正确");
         }
         String jwt = jwtUtils.generateToken((user.getId()));
-        httpServerResponse.setHeader("Authorization",jwt);
-        httpServerResponse.setHeader("Access-control-Expose-Headers","Authorization");
+        httpServerResponse.setHeader("Authorization", jwt);
+        httpServerResponse.setHeader("Access-control-Expose-Headers", "Authorization");
         return Result.succ(MapUtil.builder()
-                .put("id",user.getId())
-                .put("username",user.getId())
-                .put("avatar",user.getAvatar())
-                .put("email",user.getEmail())
+                .put("id", user.getId())
+                .put("username", user.getId())
+                .put("avatar", user.getAvatar())
+                .put("email", user.getEmail())
                 .map()
         );
     }
+
     @RequiresAuthentication
     @PostMapping("/Logout")
-    public Result logout(){
+    public Result logout() {
         SecurityUtils.getSubject().logout();
         return Result.succ(null);
     }
