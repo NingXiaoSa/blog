@@ -1,0 +1,9 @@
+别忘了给vueblog一个star哇。
+
+vueblog项目文档：https://juejin.cn/post/5ecfca676fb9a04793456fb8
+
+vueblog项目视频：https://www.bilibili.com/video/BV1PQ4y1P7hZ
+
+vueblog代码仓库：https://github.com/MarkerHub/vueblog
+
+另外关注我的B站MarkerHub，后续我还有几个前后端分离综合项目在录制待发哈。

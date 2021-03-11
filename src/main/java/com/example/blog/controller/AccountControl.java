@@ -1,9 +1,9 @@
 package com.example.blog.controller;
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.lang.Console;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.crypto.SecureUtil;
-import cn.hutool.http.server.HttpServerResponse;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.blog.common.dto.LoginDto;
 import com.example.blog.common.lang.Result;
@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 public class AccountControl {
     @Autowired
@@ -25,16 +27,17 @@ public class AccountControl {
     @Autowired
     JwtUtils jwtUtils;
 
-    @PostMapping("/Login")
-    public Result login(@Validated @RequestBody LoginDto loginDto, HttpServerResponse httpServerResponse) {
+    @PostMapping("/login")
+    public Result login(@Validated @RequestBody LoginDto loginDto, HttpServletResponse response) {
+        Console.log("1");
         User user = userService.getOne(new QueryWrapper<User>().eq("username", loginDto.getUsername()));
         Assert.notNull(user, "用户不存在");
         if (user.getPassword().equals(SecureUtil.md5(loginDto.getPassword()))) {
             return Result.fail("密码不正确");
         }
         String jwt = jwtUtils.generateToken((user.getId()));
-        httpServerResponse.setHeader("Authorization", jwt);
-        httpServerResponse.setHeader("Access-control-Expose-Headers", "Authorization");
+        response.setHeader("Authorization", jwt);
+        response.setHeader("Access-control-Expose-Headers", "Authorization");
         return Result.succ(MapUtil.builder()
                 .put("id", user.getId())
                 .put("username", user.getId())
@@ -45,7 +48,7 @@ public class AccountControl {
     }
 
     @RequiresAuthentication
-    @PostMapping("/Logout")
+    @PostMapping("/logout")
     public Result logout() {
         SecurityUtils.getSubject().logout();
         return Result.succ(null);
