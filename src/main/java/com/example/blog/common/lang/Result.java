@@ -10,14 +10,14 @@ public class Result implements Serializable {
     private Object data;
     public static Result succ(Object data) {
         Result m = new Result();
-        m.setCode("0");
+        m.setCode("200");
         m.setData(data);
         m.setMsg("操作成功");
         return m;
     }
     public static Result succ(String mess, Object data) {
         Result m = new Result();
-        m.setCode("0");
+        m.setCode("200");
         m.setData(data);
         m.setMsg(mess);
         return m;
@@ -39,8 +39,8 @@ public class Result implements Serializable {
     public static Result fail(String code,String mess, Object data) {
         Result m = new Result();
         m.setCode(code);
-        m.setData(mess);
-        m.setMsg((String) data);
+        m.setData(data);
+        m.setMsg(mess);
         return m;
     }
 }

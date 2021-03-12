@@ -1,7 +1,6 @@
 package com.example.blog.controller;
 
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.lang.Console;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -29,10 +28,16 @@ public class AccountControl {
 
     @PostMapping("/login")
     public Result login(@Validated @RequestBody LoginDto loginDto, HttpServletResponse response) {
-        Console.log("1");
+
         User user = userService.getOne(new QueryWrapper<User>().eq("username", loginDto.getUsername()));
         Assert.notNull(user, "用户不存在");
-        if (user.getPassword().equals(SecureUtil.md5(loginDto.getPassword()))) {
+
+//        Console.log(user.getPassword());
+//        Console.log(SecureUtil.md5(loginDto.getPassword()));
+//        Console.log(user.getPassword().equals(SecureUtil.md5(loginDto.getPassword())));
+
+
+        if (!user.getPassword().equals(SecureUtil.md5(loginDto.getPassword()))) {
             return Result.fail("密码不正确");
         }
         String jwt = jwtUtils.generateToken((user.getId()));
@@ -40,7 +45,7 @@ public class AccountControl {
         response.setHeader("Access-control-Expose-Headers", "Authorization");
         return Result.succ(MapUtil.builder()
                 .put("id", user.getId())
-                .put("username", user.getId())
+                .put("username", user.getUsername())
                 .put("avatar", user.getAvatar())
                 .put("email", user.getEmail())
                 .map()
