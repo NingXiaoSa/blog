@@ -1,6 +1,5 @@
 package com.example.blog.shiro;
 
-import cn.hutool.http.server.HttpServerResponse;
 import cn.hutool.json.JSONUtil;
 import com.example.blog.common.lang.Result;
 import com.example.blog.util.JwtUtils;
@@ -56,7 +55,7 @@ public class JwtFilter extends AuthenticatingFilter {
 
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
-        HttpServerResponse httpServerResponse=(HttpServerResponse) response;
+        HttpServletResponse httpServerResponse=(HttpServletResponse) response;//ServletResponse和HttpServletResponse
         Throwable throwable = e.getCause() == null ? e : e.getCause();
         Result result = Result.fail((throwable.getMessage()));
         String json = JSONUtil.toJsonStr(result);

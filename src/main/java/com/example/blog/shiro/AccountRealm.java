@@ -1,5 +1,6 @@
 package com.example.blog.shiro;
 
+import cn.hutool.core.lang.Console;
 import com.example.blog.entity.User;
 import com.example.blog.service.UserService;
 import com.example.blog.util.JwtUtils;
@@ -34,6 +35,8 @@ public class AccountRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         JwtToken jwtToken =(JwtToken) authenticationToken;
         String userId = jwtUtils.getClaimByToken((String) jwtToken.getPrincipal()).getSubject();
+        Console.log(userId);
+
         User user = userService.getById(Long.valueOf(userId));
 
         if(user == null){
