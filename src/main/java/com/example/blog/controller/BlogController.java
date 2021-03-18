@@ -46,7 +46,7 @@ public class BlogController {
     }
 
     @RequiresAuthentication
-    @GetMapping("/blog/edit")
+    @PostMapping("/blog/edit")
     public Result edit(@Validated @RequestBody Blog blog) {
         Blog temp = null;
         if (blog.getId() != null) {
