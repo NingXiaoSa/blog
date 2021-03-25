@@ -7,6 +7,8 @@ spring:
     password: zaq12345
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
+
+  #只针对内置tomcat的配置
 server:
   port: 8081
 
