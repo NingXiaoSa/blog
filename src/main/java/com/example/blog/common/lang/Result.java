@@ -5,9 +5,9 @@ import lombok.Data;
 import java.io.Serializable;
 @Data
 public class Result implements Serializable {
-    private String code;
-    private String msg;
-    private Object data;
+    private String code;//状态码
+    private String msg;//提示信息
+    private Object data;//数据
     public static Result succ(Object data) {
         Result m = new Result();
         m.setCode("200");
